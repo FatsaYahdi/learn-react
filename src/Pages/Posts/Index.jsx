@@ -8,7 +8,6 @@ export default function PostIndex() {
         async function fetchData() {
             const response = await axios.get('http://localhost:8000/api/v1/posts');
             setPosts(response.data.posts);
-            console.log(response);
         }
         fetchData();
     }, []);
@@ -22,6 +21,7 @@ export default function PostIndex() {
                 <th width='5%'>No.</th>
                 <th>Title</th>
                 <th>Content</th>
+                <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,6 +30,9 @@ export default function PostIndex() {
                     <td>{index + 1}</td>
                     <td>{post.title}</td>
                     <td>{post.content}</td>
+                    <td>
+                        <a href={`/post/${post.id}`}>Show</a>
+                    </td>
                 </tr>
                 ))}
             </tbody>

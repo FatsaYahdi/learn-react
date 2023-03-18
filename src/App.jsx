@@ -4,6 +4,7 @@ import Home from "./Pages/Home";
 import PostCreate from "./Pages/Posts/Create";
 import PostIndex from "./Pages/Posts/Index";
 import './App.css';
+import PostShow from "./Pages/Posts/Show";
 
 function App() {
 
@@ -25,9 +26,10 @@ function App() {
 
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route exact path="/" element={<Home />} />
         <Route path="/posts" element={<PostIndex />} />
         <Route path="/posts/create" element={<PostCreate />} />
+        <Route path="/post/:id" element={<PostShow />} />
       </Routes>
     </Router>
     </div>
