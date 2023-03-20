@@ -10,7 +10,10 @@ function Home() {
           <img src={viteLogo} className="logo" />
           <img src={reactLogo} className="logo react" />
       </div>
-      <Button href='/posts'>Get Started</Button>
+        <Button href='/posts'>Get Started</Button>
+      <div className='mt-3'>
+        tutor puh
+      </div>
     </Container>
     );
 }
