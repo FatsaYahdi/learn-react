@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Container, Table } from "react-bootstrap";
+import { IconEye, IconTrash } from "@tabler/icons-react";
 
 export default function PostIndex() {
     const [posts, setPosts] = useState([]);
@@ -31,7 +32,7 @@ export default function PostIndex() {
                     <td>{post.title}</td>
                     <td>{post.content}</td>
                     <td>
-                        <a href={`/post/${post.id}`}>Show</a>
+                        <a href={`/post/${post.id}`}><IconEye /></a>
                     </td>
                 </tr>
                 ))}
