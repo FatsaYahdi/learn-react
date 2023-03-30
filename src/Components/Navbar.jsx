@@ -1,4 +1,4 @@
-import { Container, Nav, Navbar } from "react-bootstrap"
+import { Button, Container, Nav, Navbar } from "react-bootstrap"
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import '../App.css'
 import Home from './../Pages/Home'
@@ -12,10 +12,9 @@ import axios from 'axios'
 export default function NavbarC() {
   const token = localStorage.getItem('token')
 
-  const handleLogout = async (e) => {
-    e.preventDefault()
+  const handleLogout = async () => {
     try {
-      const response = axios.post('http://localhost:8000/api/v1/logout',token)
+      axios.post('http://localhost:8000/api/v1/logout',token)
       localStorage.removeItem('token')
     } catch (error) {
       console.log(error)
@@ -34,7 +33,11 @@ export default function NavbarC() {
                   <Nav.Link href="/posts">Posts</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link href='/login' className={token ? 'd-none' : ''}>Login</Nav.Link>
+                  <Nav.Link href={!token ? '/login' : '/'} onClick={token ? handleLogout : ''}>
+                    {
+                      token ? "Logout" : "Login"
+                    }
+                  </Nav.Link>
                 </Nav.Item>
               </Nav>
             </Container>
@@ -43,7 +46,6 @@ export default function NavbarC() {
         <Router>
           <Routes>
             <Route exact path="/" element={<Home />} />
-            <Route path="/logout" element={<Home />} />
             <Route path="/posts" element={<PostIndex />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/posts/create" element={<PostCreate />} exact/>

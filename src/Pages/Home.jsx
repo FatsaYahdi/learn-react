@@ -8,9 +8,12 @@ function Home() {
     return (
     <Container className='text-center py-4'>
       <div>
-          <h3>Made Using :&nbsp;</h3>
-          <img src={viteLogo} className="logo" />
-          <img src={reactLogo} className="logo react" />
+          <a href="https://vitejs.dev" target="_blank">
+            <img src={viteLogo} className="logo" />
+          </a>
+          <a href="https://reactjs.org" target="_blank">
+            <img src={reactLogo} className="logo react" />
+          </a>
       </div>
       {token ?
         <Button href='/posts' variant='secondary'>Get Started</Button>

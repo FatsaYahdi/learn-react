@@ -16,12 +16,12 @@ export default function Login() {
         password,
       })
       navigate('/')
-      let token = response.data.token
-      localStorage.setItem('token',token)
+      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('user_id', response.data.id)
     } catch (error) {
         console.error(error)
     }
-}
+  }
 
   return (
     <div className="container">

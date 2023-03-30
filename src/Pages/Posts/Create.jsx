@@ -16,7 +16,7 @@ return (
             <Col md="{12}">
                 <Card className="border-0 rounded shadow-sm">
                     <Card.Body>
-                        <Form>
+                        <Form autoComplete="off">
                             <Form.Group className="mb-3">
                                 <Form.Label htmlFor="title">Title</Form.Label>
                                 <Form.Control name="title" id="title" type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
