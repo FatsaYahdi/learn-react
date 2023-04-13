@@ -1,7 +1,6 @@
 import viteLogo from '/vite.svg';
 import reactLogo from '/react.svg';
 import { Button, Container } from 'react-bootstrap';
-import { useState } from 'react';
 
 function Home() {
   const token = localStorage.getItem('token')
@@ -20,9 +19,6 @@ function Home() {
         :
         <Button href='/login' variant='secondary'>Login</Button>
       }
-      <div className='mt-3'>
-        tutor puh
-      </div>
     </Container>
     );
 }
