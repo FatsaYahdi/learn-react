@@ -13,13 +13,15 @@ export default function Login() {
     event.preventDefault()
     try {
       const response = await axios.post('http://localhost:8000/api/login', {
-        email,
-        password,
+        email : email,
+        password : password,
       })
-      navigate('/')
+      // console.log(response.data)
       localStorage.setItem('token', response.data.token)
+      navigate('/')
+      window.location.reload()
     } catch (error) {
-        setError(error.response.data.message)
+        setError(error.response.data.messages)
     }
   }
 

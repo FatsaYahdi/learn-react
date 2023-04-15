@@ -1,13 +1,17 @@
 import axios from 'axios'
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function Reset() {
-    const [email,setEmail] = useState("")
-    const [password,setPassword] = useState("")
-    const [token,setToken] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [cpassword, setCpassword] = useState("")
+    const [token, setToken] = useState("")
     const [error, setError] = useState("")
     const navigate = useNavigate()
+    const search = useLocation().search;
+    const tokenParam = new URLSearchParams(search).get('token');
+    const emailParam = new URLSearchParams(search).get('email');
     async function handleReset(e) {
         e.preventDefault()
         try {
@@ -21,6 +25,10 @@ export default function Reset() {
             setError(error.response.data.message)
         }
     }
+    useEffect(() => {
+      setToken(tokenParam)
+      setEmail(emailParam)
+    },[])
   return (
     <div className="container">
     <div className="row justify-content-center">
@@ -31,19 +39,20 @@ export default function Reset() {
           </div>
           <div className="card-body">
             <form onSubmit={handleReset}>
-              <div className="form-group mb-2">
-                <label htmlFor="token">Token :</label>
-                <input type="token" className="form-control" id="token" placeholder="Token" onChange={(e) => setToken(e.target.value)} value={token} autoComplete="off" />
-              </div>
+              <input type="hidden" className="form-control" id="token" placeholder="Token" onChange={(e) => setToken(e.target.value)} value={tokenParam} autoComplete="off" />
               <div className="form-group mb-2">
                 <label htmlFor="email">Email :</label>
-                <input type="email" className="form-control" id="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email} autoComplete="off" />
+                <input type="email" className="form-control" id="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={emailParam} autoComplete="off" />
               </div>
               <div className="form-group mb-2">
                 <label htmlFor="password">Password :</label>
                 <input type="password" className="form-control" id="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} autoComplete="off" />
-                {error && error}
               </div>
+              <div className="form-group mb-2">
+                <label htmlFor="password">Confirmation Password :</label>
+                <input type="password" name="password_confirmation" className="form-control" id="password" placeholder="Password" onChange={(e) => setCpassword(e.target.value)} value={cpassword} autoComplete="off" />
+              </div>
+              <p>{error && error}</p>
               <button type="submit" className="btn btn-dark me-2">Send</button>
             </form>
           </div>

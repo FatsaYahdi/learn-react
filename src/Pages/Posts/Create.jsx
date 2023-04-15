@@ -9,10 +9,13 @@ function PostCreate() {
     const [image, setImage] = useState("")
     const token = localStorage.getItem("token")
     const [tags, setTags] = useState([])
+    const [categories, setCategories] = useState([])
+    const [error, setError] = useState("")
     const navigate = useNavigate()
     const [selectedTags, setSelectedTags] = useState([])
+    const [selectedCategories, setSelectedCategories] = useState([])
 
-    const handleCheckboxChange = (event) => {
+    const handleCheckboxChangeTag = (event) => {
         const tagId = parseInt(event.target.value)
         const isSelected = event.target.checked
     
@@ -22,6 +25,16 @@ function PostCreate() {
           setSelectedTags(selectedTags.filter(id => id !== tagId))
         }
     }
+    const handleCheckboxChangeCategory = (event) => {
+        const categoryId = parseInt(event.target.value)
+        const isSelected = event.target.checked
+    
+        if (isSelected) {
+            setSelectedCategories([...selectedCategories, categoryId])
+        } else {
+            setSelectedCategories(selectedCategories.filter(id => id !== categoryId))
+        }
+    }
     async function handleSubmit(e) {
         e.preventDefault()
         const fData = new FormData()
@@ -29,8 +42,11 @@ function PostCreate() {
         fData.append('content', content)
         fData.append('image', image)
         selectedTags.forEach(tagId => {
-            fData.append('tag_id[]', tagId);
-        });
+            fData.append('tag[]', tagId);
+        })
+        selectedCategories.forEach(categoryId => {
+            fData.append('category[]', categoryId);
+        })
         try {
             await axios.post(`http://localhost:8000/api/v1/posts`, fData , {
                 headers: {
@@ -39,7 +55,7 @@ function PostCreate() {
             })
             navigate('/posts')
         } catch (e) {
-            console.log(e)
+            setError(e.response.data.message)
         }
     }
     function preview(event) {
@@ -49,15 +65,22 @@ function PostCreate() {
         setImage(file)
     }
     useEffect(() => {
-        async function fetchTag() {
-            const response = await axios.get('http://localhost:8000/api/v2/tag', {
+        async function fetchData() {
+            const tag = await axios.get('http://localhost:8000/api/v2/tag', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             })
-            setTags(response.data.data)
+            const kategori = await axios.get('http://localhost:8000/api/v2/category', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            setTags(tag.data.data)
+            setCategories(kategori.data.data)
+
         }
-        fetchTag()
+        fetchData()
     }, [])
 
 
@@ -88,10 +111,22 @@ return (
                                 <p>Tag</p>
                                 {tags.map((tag, index) => (
                                     <span key={index}>
-                                    <Form.Control type="checkbox" name="tags[]" id={`tag_${tag.id}`} value={tag.id} className="btn-check" onChange={handleCheckboxChange} />
+                                    <Form.Control type="checkbox" name="tag[]" id={`tag_${tag.id}`} value={tag.id} className="btn-check" onChange={handleCheckboxChangeTag} />
                                     <Form.Label htmlFor={`tag_${tag.id}`}  className="btn btn-md btn-outline-dark" >{tag.name}</Form.Label>
                                     </span>
                                 ))}
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <p>Kategori</p>
+                                {categories.map((category) => (
+                                    <span key={category.id}>
+                                    <Form.Control type="checkbox" name="category[]" id={`category_${category.id}`} value={category.id} className="btn-check" onChange={handleCheckboxChangeCategory} />
+                                    <Form.Label htmlFor={`category_${category.id}`}  className="btn btn-md btn-outline-dark" >{category.name}</Form.Label>
+                                    </span>
+                                ))}
+                            </Form.Group>
+                            <Form.Group>
+                                <p>{error}</p>
                             </Form.Group>
 
                             <Button variant="primary" type="submit">

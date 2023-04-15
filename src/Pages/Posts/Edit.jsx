@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap"
+import App from './../../App';
 
 export default function PostEdit() {
     const [title, setTitle] = useState("")
@@ -11,6 +12,7 @@ export default function PostEdit() {
     const navigate = useNavigate()
     const imagePath = "http://localhost:8000/storage/images/posts/"
     const { id } = useParams()
+    const [error, setError] = useState("")
     // const [selectedTags, setSelectedTags] = useState([])
     // const [tags, setTags] = useState([])
     // const [tagsPost, setTagsPost] = useState([])
@@ -26,7 +28,7 @@ export default function PostEdit() {
     //     }
     // }
 
-    const preview = (event) => {
+    function preview(event) {
         const file = event.target.files[0]
         const imageUrl = URL.createObjectURL(file)
         document.getElementById('output').src = imageUrl
@@ -49,7 +51,7 @@ export default function PostEdit() {
             })
             navigate('/posts/list')
         } catch (e) {
-            console.log(e)
+            setError(e.response.data.message)
         }
     }
     useEffect(() => {
@@ -57,8 +59,10 @@ export default function PostEdit() {
           const response = await axios.get(`http://localhost:8000/api/v1/posts/${id}`)
           setTitle(response.data.post.title)
           setContent(response.data.post.content)
-          setImage(response.data.post.image)
-          setTagsPost(response.data.post.tags)
+          if(response.data.post.image != null) {
+              setImage(response.data.post.image)
+          }
+        //   setTagsPost(response.data.post.tags)
 
         //   const responseTag = await axios.get('http://localhost:8000/api/v2/tag', {
         //         headers: {
@@ -75,7 +79,7 @@ export default function PostEdit() {
             <Col md="{12}">
                 <Card className="border-0 rounded shadow-sm">
                     <Card.Body>
-                        <Form onSubmit={handleSubmit}>
+                        <Form onSubmit={handleSubmit} encType='multipart/form-data'>
                             <Form.Group className="mb-3">
                                 <Form.Label htmlFor="title">Title</Form.Label>
                                 <Form.Control name="title" id="title" type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} autoComplete="off" />
@@ -88,19 +92,13 @@ export default function PostEdit() {
 
                             <Form.Group className="mb-3">
                                 <Form.Label htmlFor="image">Image</Form.Label>
-                                <Form.Control name="image" id="image" type="file" />
-                                <img id="output" width={300} className="pt-2" src={imagePath + image} />
+                                <Form.Control name="image" id="image" type="file" onChange={preview} />
+                                <img id="output" width={300} className="pt-2" src={image && imagePath + image} />
                             </Form.Group>
 
-                            {/* <Form.Group className="mb-3">
-                                <p>Tag</p>
-                                {tags.map((tag, index) => (
-                                    <span key={index}>
-                                    <Form.Control type="checkbox" name="tags[]" id={`tag_${tag.id}`} value={tag.id} className="btn-check" onChange={handleCheckboxChange} />
-                                    <Form.Label htmlFor={`tag_${tag.id}`}  className="btn btn-md btn-outline-dark" >{tag.name}</Form.Label>
-                                    </span>
-                                ))}
-                            </Form.Group> */}
+                            <Form.Group className="mb-3">
+                                <span className='text-danger fw-bold'>{error}</span>
+                            </Form.Group>
 
                             <Button variant="primary" type="submit">
                                 Update

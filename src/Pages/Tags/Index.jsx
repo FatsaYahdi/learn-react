@@ -105,7 +105,7 @@ export default function TagIndex() {
                     <td>{tags.description ?? "-"}</td>
                     <td>
                     <span className='pe-2' onClick={() => handleShow(tags.id, tags.name, tags.description)}>Edit</span>
-                        <span onClick={() => handleDelete(tags.id)}>Delete</span>
+                    <span onClick={() => handleDelete(tags.id)}>Delete</span>
                     </td>
             </tr>
             ))}

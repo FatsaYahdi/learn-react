@@ -16,6 +16,7 @@ import PostList from "../Pages/Posts/List"
 import PostEdit from "../Pages/Posts/Edit"
 import PostTagIndex from "../Pages/Posts/Tags/Show"
 import TagIndex from "../Pages/Tags/Index"
+import CategoryIndex from "../Pages/Categories/Index"
 
 export default function NavbarC() {
   const token = localStorage.getItem('token')
@@ -42,25 +43,31 @@ export default function NavbarC() {
                 </Nav.Item>
               </Nav>
               <Nav className="mr-auto">
-                <NavDropdown title="Menu" id="basic-nav-dropdown">
-                  {token && 
-                    <>
-                    <NavDropdown.Item href="/profile">
-                      Profile
+                  {token ? (
+                  <NavDropdown title="Menu" id="basic-nav-dropdown">
+                      <NavDropdown.Item href="/profile">
+                        Profile
+                      </NavDropdown.Item>
+                      <NavDropdown.Item href="/posts/list">
+                        Post
+                      </NavDropdown.Item>
+                      <NavDropdown.Item href="/tag">
+                        Tag
+                      </NavDropdown.Item>
+                      <NavDropdown.Item href="/category">
+                        Category
+                      </NavDropdown.Item>
+                      <NavDropdown.Divider />
+                    <NavDropdown.Item onClick={token ? handleLogout : ""} href={token ? "/" : "/login"}>
+                      {token ? "Logout" : "Login"}
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="/posts/list">
-                      Post
-                    </NavDropdown.Item>
-                    <NavDropdown.Item href="/tag">
-                      Tag
-                    </NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    </>
-                  }
-                  <NavDropdown.Item onClick={token ? handleLogout : ""} href={token ? "/" : "/login"}>
-                    {token ? "Logout" : "Login"}
-                  </NavDropdown.Item>
-                </NavDropdown>
+                  </NavDropdown>
+                  ) : (
+                    <Nav.Item>
+                      <Nav.Link href="/login">Login</Nav.Link>
+                    </Nav.Item>
+                  ) }
+                  
               </Nav>
             </Container>
           </Navbar>
@@ -76,6 +83,7 @@ export default function NavbarC() {
               <Route path="/posts/list" element={<PostList />} />
               <Route path="/posts/:id/edit" element={<PostEdit />} />
               <Route path="/tag" element={<TagIndex />} />
+              <Route path="/category" element={<CategoryIndex />} />
             </Route>
             <Route path="/post/:id" element={<PostShow />} />
             <Route path="/posts/tag/:id" element={<PostTagIndex />} />

@@ -22,15 +22,15 @@ export default function PostTagIndex() {
                 {post.image ?
                  <img className="card-img-top img-fluid" src={imagePath + post.image} alt={post.image} style={{ minHeight: "199px" }} />
                  :
-                 <img className="card-img-top img-fluid" src="./default.png" alt={post.image} style={{ minHeight: "199px" }} />
+                 <img className="card-img-top img-fluid" src="../../../default.png" alt={post.image} style={{ minHeight: "199px" }} />
                 }
                 <div className="card-body">
                 <h5 className="card-title text-truncate">{post.title}</h5>
                 <p className="card-text text-truncate">{post.content}</p>
-                <div className="d-flex justify-content-between align-items-center">
-                    <span className="text-muted">Views: {post.views}</span>
-                    <a href={`/post/${post.id}`} className="btn btn-primary">Read more</a>
+                <span className="text-muted">Views: {post.views}</span>
                 </div>
+                <div className="card-footer text-center">
+                    <a href={`/post/${post.id}`}>Read</a>
                 </div>
             </div>
             </div>

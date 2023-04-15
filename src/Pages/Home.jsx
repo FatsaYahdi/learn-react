@@ -14,10 +14,8 @@ function Home() {
             <img src={reactLogo} className="logo react" />
           </a>
       </div>
-      {token ?
+      {token &&
         <Button href='/posts' variant='secondary'>Get Started</Button>
-        :
-        <Button href='/login' variant='secondary'>Login</Button>
       }
     </Container>
     );
