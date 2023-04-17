@@ -17,6 +17,9 @@ import PostEdit from "../Pages/Posts/Edit"
 import PostTagIndex from "../Pages/Posts/Tags/Show"
 import TagIndex from "../Pages/Tags/Index"
 import CategoryIndex from "../Pages/Categories/Index"
+import Test from "../Pages/Categories/test"
+import IsLogin from "../Routes/Islogin"
+import IsAdmin from "../Routes/IsAdmin"
 
 export default function NavbarC() {
   const token = localStorage.getItem('token')
@@ -76,6 +79,8 @@ export default function NavbarC() {
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route path="/posts" element={<PostIndex />} />
+            <Route path="/post/:id" element={<PostShow />} />
+            {/* protect */}
             <Route element={<ProtectedRoute />}>
               <Route path="/posts/create" element={<PostCreate />} />
               <Route path="/profile" element={<ProfileShow />} />
@@ -85,11 +90,18 @@ export default function NavbarC() {
               <Route path="/tag" element={<TagIndex />} />
               <Route path="/category" element={<CategoryIndex />} />
             </Route>
-            <Route path="/post/:id" element={<PostShow />} />
             <Route path="/posts/tag/:id" element={<PostTagIndex />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/reset-password/send" element={<ResetPassword />} />
-            <Route path="/reset-password/reset" element={<Reset />} />
+            {/* is login */}
+            <Route element={<IsLogin /> }>
+            {/* admin */}
+            <Route element={<IsAdmin />}>
+              <Route path="/test" element={<Test />} />
+            </Route>
+              <Route path="/login" element={<Login />} />
+              <Route path="/reset-password/send" element={<ResetPassword />} />
+              <Route path="/reset-password/reset" element={<Reset />} />
+            </Route>
+            {/* not found */}
             <Route path="*" element={<p>nothin here</p>} />
           </Routes>
         </Router>

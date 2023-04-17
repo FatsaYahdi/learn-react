@@ -19,6 +19,7 @@ export default function Reset() {
                 token: token,
                 email: email,
                 password: password,
+                password_confirmation: cpassword
             })
             navigate('/login')
         } catch (error) {
@@ -39,7 +40,6 @@ export default function Reset() {
           </div>
           <div className="card-body">
             <form onSubmit={handleReset}>
-              <input type="hidden" className="form-control" id="token" placeholder="Token" onChange={(e) => setToken(e.target.value)} value={tokenParam} autoComplete="off" />
               <div className="form-group mb-2">
                 <label htmlFor="email">Email :</label>
                 <input type="email" className="form-control" id="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={emailParam} autoComplete="off" />
@@ -49,8 +49,8 @@ export default function Reset() {
                 <input type="password" className="form-control" id="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} autoComplete="off" />
               </div>
               <div className="form-group mb-2">
-                <label htmlFor="password">Confirmation Password :</label>
-                <input type="password" name="password_confirmation" className="form-control" id="password" placeholder="Password" onChange={(e) => setCpassword(e.target.value)} value={cpassword} autoComplete="off" />
+                <label htmlFor="cpassword">Confirmation Password :</label>
+                <input type="password" name="password_confirmation" className="form-control" id="cpassword" placeholder="Password Confirmation" onChange={(e) => setCpassword(e.target.value)} value={cpassword} autoComplete="off" />
               </div>
               <p>{error && error}</p>
               <button type="submit" className="btn btn-dark me-2">Send</button>

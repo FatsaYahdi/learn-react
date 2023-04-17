@@ -1,6 +1,5 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 export default function ResetPassword() {
     const [email,setEmail] = useState("")
@@ -43,8 +42,8 @@ export default function ResetPassword() {
             Info
           </div>
           <div className="card-body">
-            <h5>cek email mu klik reset jika masih tidak ada</h5>
-            <span className='btn btn-secondary' onClick={handleReset}>Reset</span>
+            <h5>Cek email mu klik reset jika masih tidak ada</h5>
+            <span className='btn btn-secondary' onClick={handleReset}>Kirim Ulang</span>
           </div>
         </div>
         )}
